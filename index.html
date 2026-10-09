@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowUp Ruiru | Login</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode"
+    style="position:fixed;top:16px;right:16px;z-index:50;">🌙</button>
+
+  <div class="login-container" style="max-width:460px;">
+    <div class="login-card">
+      <div class="logo">
+        <div class="logo-icon">✦</div>
+        <h1>GlowUp Ruiru</h1>
+        <p class="tagline">Beauty & Cosmetology Student Services</p>
+        <p class="location">VX25+XJ · Ruiru, Kenya</p>
+      </div>
+
+      <div class="role-tabs">
+        <button class="tab active" data-role="client">Client</button>
+        <button class="tab" data-role="student">Student</button>
+        <button class="tab" data-role="admin">Admin</button>
+      </div>
+
+      <!-- ========== CLIENT ========== -->
+      <form id="clientForm" class="auth-form">
+        <p class="form-hint">Enter your name & phone to browse services</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="cFirstName" placeholder="e.g. Jane" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="cLastName" placeholder="e.g. Njeri" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="cPhone" placeholder="e.g. 0712345678" required>
+        </div>
+        <button type="submit" class="btn-primary">Continue as Client</button>
+      </form>
+
+      <!-- ========== STUDENT ========== -->
+      <div id="studentSection" class="auth-form" style="display:none;">
+        <div class="sub-tabs">
+          <button type="button" class="sub-tab active" data-sub="login">Login</button>
+          <button type="button" class="sub-tab" data-sub="register">First time? Register</button>
+        </div>
+
+        <!-- Student Login -->
+        <form id="studentLoginForm">
+          <p class="form-hint">Login with your phone & password</p>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="sLoginPhone" placeholder="e.g. 0712345678" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="sLoginPass" placeholder="Your password" required>
+          </div>
+          <button type="submit" class="btn-primary">Login as Student</button>
+          <p class="forgot-link"><a href="forgot.html">Forgot password?</a></p>
+        </form>
+
+        <!-- Student Register -->
+        <form id="studentRegisterForm" style="display:none;">
+          <p class="form-hint">Create your student account</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="sRegFirst" placeholder="e.g. Amina" required>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" id="sRegLast" placeholder="e.g. Wanjiku" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Phone / WhatsApp</label>
+            <input type="tel" id="sRegPhone" placeholder="e.g. 0712345678" required>
+          </div>
+          <div class="form-group">
+            <label>Create Password</label>
+            <input type="password" id="sRegPass" placeholder="Choose your own password" required minlength="4">
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="sRegPass2" placeholder="Type password again" required>
+          </div>
+          <button type="submit" class="btn-primary">Create Student Account</button>
+        </form>
+      </div>
+
+      <!-- ========== ADMIN ========== -->
+      <div id="adminSection" class="auth-form" style="display:none;">
+        <div class="sub-tabs">
+          <button type="button" class="sub-tab active" data-sub="alogin">Login</button>
+          <button type="button" class="sub-tab" data-sub="aregister">First time? Register</button>
+        </div>
+
+        <form id="adminLoginForm">
+          <p class="form-hint">Admin login</p>
+          <div class="form-group">
+            <label>Admin Name</label>
+            <input type="text" id="aLoginName" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="aLoginPhone" placeholder="e.g. 0712345678" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="aLoginPass" placeholder="Your password" required>
+          </div>
+          <button type="submit" class="btn-primary">Login as Admin</button>
+        </form>
+
+        <form id="adminRegisterForm" style="display:none;">
+          <p class="form-hint">Create the Admin account</p>
+          <div class="form-group">
+            <label>Admin Name</label>
+            <input type="text" id="aRegName" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="aRegPhone" placeholder="e.g. 0712345678" required>
+          </div>
+          <div class="form-group">
+            <label>Create Password</label>
+            <input type="password" id="aRegPass" placeholder="Choose your own password" required minlength="4">
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="aRegPass2" placeholder="Type password again" required>
+          </div>
+          <button type="submit" class="btn-primary">Create Admin Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>initTheme();</script>
+</body>
+</html>

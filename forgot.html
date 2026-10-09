@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Password | GlowUp Ruiru</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode"
+    style="position:fixed;top:16px;right:16px;z-index:50;">🌙</button>
+
+  <div class="login-container">
+    <div class="login-card">
+      <div class="logo">
+        <div class="logo-icon">✦</div>
+        <h1>Forgot Password</h1>
+        <p class="tagline">Students only — recover via WhatsApp</p>
+      </div>
+
+      <form id="forgotForm">
+        <p class="form-hint">Enter the phone number you registered with. We will open WhatsApp with your password so you can save it.</p>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="forgotPhone" placeholder="e.g. 0712345678" required>
+        </div>
+        <button type="submit" class="btn-primary">Get Password via WhatsApp</button>
+      </form>
+
+      <div id="forgotResult" style="display:none;margin-top:20px;text-align:center;">
+        <p style="color:var(--success);font-weight:500;margin-bottom:12px;">✓ Account found!</p>
+        <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:14px;">
+          WhatsApp will open with your password. Send the message to yourself to save it.
+        </p>
+        <a id="waRecoverLink" class="btn-book" href="#" target="_blank" style="display:inline-block;text-decoration:none;max-width:280px;">
+          💬 Open WhatsApp & Get Password
+        </a>
+      </div>
+
+      <p class="forgot-link" style="margin-top:24px;"><a href="index.html">← Back to Login</a></p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    initTheme();
+    document.getElementById('forgotForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const phone = cleanPhone(document.getElementById('forgotPhone').value);
+      if (phone.length < 12) {
+        alert('Enter a valid phone number (e.g. 0712345678)');
+        return;
+      }
+      const users = getUsers();
+      const student = users.find(u => u.role === 'student' && u.phone === phone);
+      if (!student) {
+        alert('No student account found with that phone number.');
+        document.getElementById('forgotResult').style.display = 'none';
+        return;
+      }
+      // Build WhatsApp message with password so student can save it
+      const msg = encodeURIComponent(
+        `🔐 GlowUp Ruiru – Password Recovery\n\n` +
+        `Hello ${student.fullName},\n\n` +
+        `Your login details:\n` +
+        `📱 Phone: ${formatPhone(student.phone)}\n` +
+        `🔑 Password: ${student.password}\n\n` +
+        `Keep this message saved in WhatsApp.\n` +
+        `(VX25+XJ Ruiru)`
+      );
+      const link = document.getElementById('waRecoverLink');
+      link.href = `https://wa.me/${student.phone}?text=${msg}`;
+      document.getElementById('forgotResult').style.display = 'block';
+    });
+  </script>
+</body>
+</html>

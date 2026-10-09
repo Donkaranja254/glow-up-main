@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | GlowUp Ruiru</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="logo-icon">✦</span>
+      <span>GlowUp Ruiru — Admin</span>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+      <span class="user-badge" id="userBadge">Admin</span>
+      <button class="btn-outline" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <main class="dashboard">
+    <header class="page-header">
+      <h1>Admin Dashboard</h1>
+      <p>View all students, their services, and ratings. You cannot edit a student’s posts — only view and manage overview.</p>
+      <p class="date-display" id="todayDate"></p>
+    </header>
+
+    <!-- Stats -->
+    <div class="info-cards" id="adminStats">
+      <div class="info-card">
+        <span class="info-icon">👩‍🎓</span>
+        <div><strong id="statStudents">0</strong><p>Students</p></div>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">💅</span>
+        <div><strong id="statServices">0</strong><p>Services today</p></div>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">⭐</span>
+        <div><strong id="statRatings">0</strong><p>Total ratings</p></div>
+      </div>
+    </div>
+
+    <!-- All Students & Ratings -->
+    <section class="card" style="margin-bottom:24px;">
+      <h2>All Students & Ratings</h2>
+      <div id="studentsRatingsList"></div>
+    </section>
+
+    <!-- All Services -->
+    <section class="card">
+      <div class="list-header">
+        <h2>All Posted Services (Today)</h2>
+        <button class="btn-danger-sm" onclick="adminClearAllServices()">Clear All Services</button>
+      </div>
+      <div id="allServicesList" class="services-list" style="max-height:none;"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    if (sessionStorage.getItem('role') !== 'admin') {
+      window.location.href = 'index.html';
+    }
+    document.getElementById('userBadge').textContent = sessionStorage.getItem('fullName') || 'Admin';
+    document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-KE', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+    initTheme();
+    renderAdminDashboard();
+  </script>
+</body>
+</html>

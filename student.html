@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard | GlowUp Ruiru</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="logo-icon">✦</span>
+      <span>GlowUp Ruiru</span>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+      <span class="user-badge" id="userBadge">Student</span>
+      <button class="btn-outline" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <main class="dashboard">
+    <header class="page-header">
+      <h1>My Student Dashboard</h1>
+      <p>Only <strong>you</strong> can see and manage the services you post. Other students cannot edit your work.</p>
+      <p class="date-display" id="todayDate"></p>
+    </header>
+
+    <div class="dashboard-grid">
+      <section class="card form-card">
+        <h2>Post a Service for Today</h2>
+        <form id="addServiceForm">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="studentName" readonly>
+          </div>
+          <div class="form-group">
+            <label for="serviceType">Service Type</label>
+            <select id="serviceType" required>
+              <option value="">Select a service</option>
+              <option value="Hair Braiding">Hair Braiding</option>
+              <option value="Hair Styling / Blowdry">Hair Styling / Blowdry</option>
+              <option value="Locs / Dreadlocks">Locs / Dreadlocks</option>
+              <option value="Manicure">Manicure</option>
+              <option value="Pedicure">Pedicure</option>
+              <option value="Gel Nails">Gel Nails</option>
+              <option value="Facial Treatment">Facial Treatment</option>
+              <option value="Makeup Application">Makeup Application</option>
+              <option value="Waxing">Waxing</option>
+              <option value="Eyebrow Threading">Eyebrow Threading</option>
+              <option value="Massage / Spa">Massage / Spa</option>
+              <option value="Shaving for Men">Shaving for Men</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="startTime">Available From</label>
+              <input type="time" id="startTime" required>
+            </div>
+            <div class="form-group">
+              <label for="endTime">Available Until</label>
+              <input type="time" id="endTime" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Your WhatsApp</label>
+            <input type="tel" id="whatsapp" readonly>
+          </div>
+          <div class="form-group">
+            <label for="notes">Notes (optional)</label>
+            <textarea id="notes" rows="2" placeholder="e.g. Box braids only"></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Post My Service</button>
+        </form>
+      </section>
+
+      <section class="card list-card">
+        <div class="list-header">
+          <h2>My Posted Services</h2>
+          <button class="btn-danger-sm" onclick="clearMyServices()">Clear Mine</button>
+        </div>
+        <div id="servicesList" class="services-list"></div>
+        <div id="myRatingBox" style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);"></div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:28px;">
+      <h2>💡 Tips</h2>
+      <ul class="tips-list">
+        <li>Only you can edit or delete your own services.</li>
+        <li>Clients book you directly on WhatsApp.</li>
+        <li>Your ratings are public — good work helps you get more clients.</li>
+        <li>Clear old slots at the end of the day.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    if (sessionStorage.getItem('role') !== 'student') {
+      window.location.href = 'index.html';
+    }
+    const fullName = sessionStorage.getItem('fullName') || 'Student';
+    const phone = sessionStorage.getItem('phone') || '';
+    document.getElementById('userBadge').textContent = fullName;
+    document.getElementById('studentName').value = fullName;
+    document.getElementById('whatsapp').value = formatPhone(phone);
+    document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-KE', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+    initTheme();
+    renderStudentList();
+    showMyRating();
+  </script>
+</body>
+</html>
